@@ -2,6 +2,12 @@
 
 A simple URL shortener backend project built with Node.js, Express, and SQLite.
 
+## 🌐 Live Demo
+https://url-shortener-d4hm.onrender.com/
+
+## 📸 Screenshot
+![alt text](image.png)
+
 ## Features
 
 * Create short URLs from long URLs
