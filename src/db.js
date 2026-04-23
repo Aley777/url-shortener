@@ -1,7 +1,13 @@
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
+const fs = require("fs");
 
-const dbPath = path.resolve(__dirname, "../database.sqlite");
+const dataDir = process.env.DATA_DIR || path.resolve(__dirname, "../");
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
+
+const dbPath = path.join(dataDir, "database.sqlite");
 
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
@@ -22,13 +28,16 @@ db.serialize(() => {
     )
   `);
 
-  db.run(`
+  db.run(
+    `
     ALTER TABLE urls ADD COLUMN click_count INTEGER DEFAULT 0
-  `, (err) => {
-    if (err && !err.message.includes("duplicate column name")) {
-      console.error("Migration error:", err.message);
+  `,
+    (err) => {
+      if (err && !err.message.includes("duplicate column name")) {
+        console.error("Migration error:", err.message);
+      }
     }
-  });
+  );
 });
 
 module.exports = db;

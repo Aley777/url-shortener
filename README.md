@@ -122,7 +122,8 @@ Response:
 
 * URL must be a valid format
 * URL must start with `http://` or `https://`
-
+* `customCode` can only contain letters, numbers, hyphen (`-`) and underscore (`_`)
+* duplicate custom codes are not allowed
 ---
 
 ## Future Improvements
@@ -133,9 +134,7 @@ Response:
 * Authentication system
 * Deployment (Render / Railway)
 
-## Validation Rules
+## Deployment Note
 
-* URL must be a valid format
-* URL must start with `http://` or `https://`
-* `customCode` can only contain letters, numbers, hyphen (`-`) and underscore (`_`)
-* duplicate custom codes are not allowed
+This project can be deployed on Render.  
+When using SQLite on Render without a persistent disk, database data may reset after redeploys or restarts.
