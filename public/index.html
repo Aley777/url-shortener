@@ -29,8 +29,14 @@
     </form>
 
     <div id="result" class="result hidden">
-      <h3>Short URL Created</h3>
-      <a id="shortUrl" href="#" target="_blank"></a>
+        <h3>Short URL Created</h3>
+
+        <div class="result-box">
+            <a id="shortUrl" href="#" target="_blank"></a>
+            <button id="copyBtn">Copy</button>
+        </div>
+
+        <p id="copyMessage" class="copy-message hidden">Copied!</p>
     </div>
 
     <div id="error" class="error hidden"></div>

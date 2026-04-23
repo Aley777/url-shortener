@@ -77,3 +77,28 @@ button:hover {
   word-break: break-all;
   font-weight: bold;
 }
+
+.result-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+#copyBtn {
+  padding: 8px 12px;
+  border: none;
+  background: #4caf50;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#copyBtn:hover {
+  opacity: 0.9;
+}
+
+.copy-message {
+  margin-top: 10px;
+  color: green;
+  font-size: 14px;
+}

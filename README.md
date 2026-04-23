@@ -19,6 +19,7 @@ https://url-shortener-d4hm.onrender.com/
 * REST API structure with routes and controllers
 * Custom short code support
 * Simple frontend interface with HTML, CSS, and JavaScript
+* Copy-to-clipboard functionality for shortened URLs
 
 ## Technologies
 

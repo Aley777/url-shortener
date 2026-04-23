@@ -4,6 +4,8 @@ const customCodeInput = document.getElementById("customCode");
 const resultDiv = document.getElementById("result");
 const errorDiv = document.getElementById("error");
 const shortUrlAnchor = document.getElementById("shortUrl");
+const copyBtn = document.getElementById("copyBtn");
+const copyMessage = document.getElementById("copyMessage");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -45,5 +47,21 @@ form.addEventListener("submit", async (e) => {
   } catch (error) {
     errorDiv.textContent = error.message;
     errorDiv.classList.remove("hidden");
+  }
+});
+
+copyBtn.addEventListener("click", async () => {
+  const url = shortUrlAnchor.textContent;
+
+  try {
+    await navigator.clipboard.writeText(url);
+
+    copyMessage.classList.remove("hidden");
+
+    setTimeout(() => {
+      copyMessage.classList.add("hidden");
+    }, 2000);
+  } catch (err) {
+    alert("Failed to copy");
   }
 });
