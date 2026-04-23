@@ -13,7 +13,7 @@ function generateShortCode(length = 6) {
 }
 
 exports.createShortUrl = (req, res) => {
-  const { originalUrl } = req.body;
+  const { originalUrl, customCode } = req.body;
 
   if (!originalUrl) {
     return res.status(400).json({
@@ -31,31 +31,51 @@ exports.createShortUrl = (req, res) => {
     });
   }
 
-  if (
-    parsedUrl.protocol !== "http:" &&
-    parsedUrl.protocol !== "https:"
-  ) {
+  if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
     return res.status(400).json({
       error: "URL must start with http or https",
     });
   }
 
-  const shortCode = generateShortCode();
-  const query = `INSERT INTO urls (original_url, short_code) VALUES (?, ?)`;
+  let shortCode = customCode || generateShortCode();
 
-  db.run(query, [originalUrl, shortCode], function (err) {
-    if (err) {
+  if (!/^[a-zA-Z0-9_-]+$/.test(shortCode)) {
+    return res.status(400).json({
+      error: "customCode can only contain letters, numbers, hyphen and underscore",
+    });
+  }
+
+  const checkQuery = `SELECT short_code FROM urls WHERE short_code = ?`;
+
+  db.get(checkQuery, [shortCode], (checkErr, existingRow) => {
+    if (checkErr) {
       return res.status(500).json({
         error: "Database error",
-        details: err.message,
       });
     }
 
-    res.status(201).json({
-      message: "Short URL created successfully",
-      originalUrl,
-      shortCode,
-      shortUrl: `http://localhost:3000/${shortCode}`,
+    if (existingRow) {
+      return res.status(409).json({
+        error: "Short code already exists",
+      });
+    }
+
+    const insertQuery = `INSERT INTO urls (original_url, short_code) VALUES (?, ?)`;
+
+    db.run(insertQuery, [originalUrl, shortCode], function (insertErr) {
+      if (insertErr) {
+        return res.status(500).json({
+          error: "Database error",
+          details: insertErr.message,
+        });
+      }
+
+      res.status(201).json({
+        message: "Short URL created successfully",
+        originalUrl,
+        shortCode,
+        shortUrl: `http://localhost:3000/${shortCode}`,
+      });
     });
   });
 };
