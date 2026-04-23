@@ -11,6 +11,8 @@ A simple URL shortener backend project built with Node.js, Express, and SQLite.
 * Stats endpoint for shortened URLs
 * URL validation before shortening
 * REST API structure with routes and controllers
+* Custom short code support
+* Simple frontend interface with HTML, CSS, and JavaScript
 
 ## Technologies
 
@@ -28,8 +30,13 @@ src/
     urlController.js
   routes/
     urlRoutes.js
+public/
+  index.html
+  style.css
+  script.js
 database.sqlite
 package.json
+README.md
 ```
 
 ## Installation
@@ -57,7 +64,8 @@ Request body:
 
 ```json
 {
-  "originalUrl": "https://www.google.com"
+  "originalUrl": "https://www.google.com",
+  "customCode": "mygoogle"
 }
 ```
 
@@ -124,3 +132,10 @@ Response:
 * Frontend UI (React)
 * Authentication system
 * Deployment (Render / Railway)
+
+## Validation Rules
+
+* URL must be a valid format
+* URL must start with `http://` or `https://`
+* `customCode` can only contain letters, numbers, hyphen (`-`) and underscore (`_`)
+* duplicate custom codes are not allowed
