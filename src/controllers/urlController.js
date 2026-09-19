@@ -70,11 +70,13 @@ exports.createShortUrl = (req, res) => {
         });
       }
 
+      const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get("host")}`;
+
       res.status(201).json({
         message: "Short URL created successfully",
         originalUrl,
         shortCode,
-        shortUrl: `http://localhost:3000/${shortCode}`,
+        shortUrl: `${baseUrl}/${shortCode}`,
       });
     });
   });
@@ -134,10 +136,12 @@ exports.getUrlStats = (req, res) => {
       });
     }
 
+    const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get("host")}`;
+
     res.status(200).json({
       originalUrl: row.original_url,
       shortCode: row.short_code,
-      shortUrl: `http://localhost:3000/${row.short_code}`,
+      shortUrl: `${baseUrl}/${row.short_code}`,
       clickCount: row.click_count,
       createdAt: row.created_at,
     });
